@@ -4,7 +4,9 @@ import com.example.itcourses.ui.base.BaseView
 
 interface CalculatorView : BaseView {
 
-    fun showInputText(text: String)
+    fun clearText()
+
+    fun showInputText(text: Char)
 
     fun showAnswerText(text: String)
 }

@@ -9,4 +9,5 @@ import com.example.itcourses.ui.base.BaseView
 interface ListView: BaseView {
 
     fun showCars(carList: List<Car>)
+    
 }

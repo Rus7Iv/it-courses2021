@@ -2,11 +2,11 @@ package com.example.itcourses.ui.main
 
 import android.content.Intent
 import android.widget.Button
-import android.widget.Toast
 import com.example.itcourses.R
 import com.example.itcourses.ui.base.BaseActivity
 import com.example.itcourses.ui.calclulator.CalculatorActivity
 import com.example.itcourses.ui.list.ListActivity
+import com.example.itcourses.ui.listmy.ListMyActivity
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
 
@@ -36,7 +36,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
         }
 
         button3.setOnClickListener {
-            Toast.makeText(this, "Button 2", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ListMyActivity::class.java)
+            startActivity(intent)
         }
     }
 }

@@ -1,10 +1,13 @@
 package com.example.itcourses.ui.calclulator
 
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.itcourses.R
 import com.example.itcourses.ui.base.BaseActivity
 import com.example.itcourses.utils.lazyUnsafe
+import net.objecthunter.exp4j.ExpressionBuilder
+import java.lang.Exception
 
 class CalculatorActivity : BaseActivity<CalculatorView, CalculatorPresenter>(), CalculatorView {
 
@@ -29,6 +32,8 @@ class CalculatorActivity : BaseActivity<CalculatorView, CalculatorPresenter>(), 
     private val buttonSum: Button by lazyUnsafe { findViewById(R.id.buttonSum) }
     private val buttonDiv: Button by lazyUnsafe { findViewById(R.id.buttonDiv) }
     private val buttonMult: Button by lazyUnsafe { findViewById(R.id.buttonMult) }
+    private val buttonDot: Button by lazyUnsafe { findViewById(R.id.buttonDot) }
+
 
     private val buttonClear: Button by lazyUnsafe { findViewById(R.id.buttonClear) }
     private val buttonEqually: Button by lazyUnsafe { findViewById(R.id.buttonEqually) }
@@ -49,17 +54,34 @@ class CalculatorActivity : BaseActivity<CalculatorView, CalculatorPresenter>(), 
         buttonSub.setOnClickListener { presenter.onSubClick() }
         buttonSum.setOnClickListener { presenter.onSumClick() }
         buttonDiv.setOnClickListener { presenter.onDivClick() }
-        buttonMult.setOnClickListener { presenter.onMultClick() }
+        buttonMult.setOnClickListener { presenter.onMultiClick() }
+        buttonDot.setOnClickListener { presenter.onDotClick() }
 
         buttonClear.setOnClickListener { presenter.onClearClick() }
         buttonEqually.setOnClickListener { presenter.onEquallyClick() }
     }
 
-    override fun showInputText(text: String) {
-        inputTextView.text = text
+    override fun showInputText(text: Char) {
+        inputTextView.append(text.toString())
+    }
+
+    override fun clearText() {
+        inputTextView.text = null
+        answerTextView.text = null
     }
 
     override fun showAnswerText(text: String) {
-        answerTextView.text = text
+        try {
+            val ex = ExpressionBuilder(inputTextView.text.toString()).build()
+            val result=ex.evaluate()
+            val longRes=result.toLong()
+            if(result==longRes.toDouble())
+                answerTextView.text=longRes.toString()
+            else
+                answerTextView.text=result.toString()
+        }
+        catch (e: Exception){
+            Log.d("Ошибка","сообщение:${e.message}")
+        }
     }
 }
